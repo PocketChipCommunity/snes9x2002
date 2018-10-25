@@ -142,6 +142,18 @@ else ifeq ($(platform), ctr)
    PLATFORM_DEFINES := -D_3DS
    STATIC_LINKING := 1
 
+else ifeq ($(platform), pocketchip)
+   TARGET := $(TARGET_NAME)_libretro.so
+   fpic := -fPIC
+   SHARED := -shared -Wl,-version-script=libretro/link.T -Wl,-no-undefined
+   CFLAGS += -fno-builtin -fno-exceptions
+   CFLAGS += -DARM
+   CFLAGS += -marm -mcpu=cortex-a8
+   CFLAGS += -mfloat-abi=hard -mfpu=neon
+   ARM_ASM = 1
+   ASM_CPU = 0
+   ASM_SPC700 = 0
+
 # Emscripten
 else ifeq ($(platform), emscripten)
    TARGET := $(TARGET_NAME)_libretro_$(platform).bc
